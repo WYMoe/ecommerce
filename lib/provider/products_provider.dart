@@ -1,11 +1,9 @@
-import 'package:ecommerce/models/produc_model.dart';
-import 'package:ecommerce/widgets/product_item.dart';
-import 'package:ecommerce/widgets/products_grid.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class ProductsOverviewScreen extends StatelessWidget {
-  final List<ProductModel> loadedProducts = [
+import 'package:ecommerce/models/produc_model.dart';
+import 'package:flutter/cupertino.dart';
+
+class ProductsProvider with ChangeNotifier{
+  List<ProductModel> _items = [
     ProductModel(
       id: 'p1',
       title: 'Red Shirt',
@@ -39,13 +37,12 @@ class ProductsOverviewScreen extends StatelessWidget {
       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     ),
   ];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("My Shop"),
-      ),
-      body: ProductGrid(),
-    );
+
+  List<ProductModel> get items => [..._items];
+
+
+  void addProduct(){
+   // _items.add(value);
+    notifyListeners();
   }
 }
