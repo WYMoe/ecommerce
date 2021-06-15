@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductGrid extends StatelessWidget {
+  final bool showFav;
+
+  ProductGrid({this.showFav});
+
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<ProductsProvider>(context);
-    final loadedProducts = products.items;
+    final loadedProducts = showFav? products.showFav(): products.items;
     return GridView.builder(
         itemCount: loadedProducts.length,
         padding: EdgeInsets.all(10.0),
@@ -18,10 +22,14 @@ class ProductGrid extends StatelessWidget {
           crossAxisCount: 2,
         ),
         itemBuilder: (context, index) {
-          return ProductItem(
-            title: loadedProducts[index].title,
-            id: loadedProducts[index].id,
-            imageUrl: loadedProducts[index].imageUrl,
+
+          
+          return ChangeNotifierProvider.value(
+            value: loadedProducts[index],
+            child: ProductItem(
+
+
+            ),
           );
         });
   }
