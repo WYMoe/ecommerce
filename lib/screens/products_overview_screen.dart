@@ -1,8 +1,9 @@
 import 'package:ecommerce/provider/cart.dart';
 import 'package:ecommerce/provider/product_model.dart';
-import 'package:ecommerce/widgets/badge.dart';
-import 'package:ecommerce/widgets/product_item.dart';
-import 'package:ecommerce/widgets/products_grid.dart';
+import 'package:ecommerce/screens/cart_screen.dart';
+import 'package:ecommerce/widgets/badge_widget.dart';
+import 'package:ecommerce/widgets/product_item_widget.dart';
+import 'package:ecommerce/widgets/products_grid_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -48,11 +49,15 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ),
           Consumer<Cart>(
            builder: (_,cart,ch){
-             return Badge(child: ch, value: cart.getTotalQuantity().toString());
+             return BadgeWidget(child: ch, value: cart.totalQuantity.toString());
            },
             child: IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: (){
+
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+
+
 
               },
             ),
@@ -61,7 +66,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         ],
 
       ),
-      body: ProductGrid(
+      body: ProductGridWidget(
         showFav: _showFav,
       ),
     );

@@ -1,12 +1,12 @@
 import 'package:ecommerce/provider/products_provider.dart';
-import 'package:ecommerce/widgets/product_item.dart';
+import 'package:ecommerce/widgets/product_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProductGrid extends StatelessWidget {
+class ProductGridWidget extends StatelessWidget {
   final bool showFav;
 
-  ProductGrid({this.showFav});
+  ProductGridWidget({this.showFav});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ProductGrid extends StatelessWidget {
           
           return ChangeNotifierProvider.value(
             value: loadedProducts[index],
-            child: ProductItem(
+            child: ProductItemWidget(
 
 
             ),

@@ -4,7 +4,7 @@ import 'package:ecommerce/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProductItem extends StatelessWidget {
+class ProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<ProductModel>(context, listen: false);
