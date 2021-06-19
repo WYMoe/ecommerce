@@ -1,4 +1,5 @@
 import 'package:ecommerce/provider/cart.dart';
+import 'package:ecommerce/provider/orders.dart';
 import 'package:ecommerce/widgets/cart_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,25 @@ class CartScreen extends StatelessWidget {
                   SizedBox(
                     width: 5.0,
                   ),
-                  TextButton(onPressed: () {}, child: Text('Order Now'))
+                  TextButton(
+                      onPressed: () {
+                        cart.items.forEach((id, cartItem) {
+                          if (cartItem.quantity <= 0) {
+                            cart.removeItem(id);
+
+                          }
+                        });
+                        if (cart.items.values.toList().length > 0) {
+
+                          Provider.of<Orders>(context, listen: false).addOrder(
+                              id: DateTime.now().toString(),
+                              dateTime: DateTime.now(),
+                              amount: cart.totalAmount,
+                              item: cart.items.values.toList());
+                          cart.clearCart();
+                        }
+                      },
+                      child: Text('Order Now'))
                 ],
               ),
             ),
