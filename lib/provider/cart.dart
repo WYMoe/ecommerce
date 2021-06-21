@@ -67,15 +67,19 @@ class Cart with ChangeNotifier {
   }
 
   void reduceQunatity(String id) {
-    _items.update(
-        id,
-        (existingCartItem) => CartItem(
-            id: existingCartItem.id,
-            title: existingCartItem.title,
-            quantity: existingCartItem.quantity <= 0
-                ? 0
-                : existingCartItem.quantity - 1,
-            price: existingCartItem.price));
+
+    if(_items[id].quantity>1){
+      _items.update(
+          id,
+              (existingCartItem) => CartItem(
+              id: existingCartItem.id,
+              title: existingCartItem.title,
+              quantity: existingCartItem.quantity - 1,
+              price: existingCartItem.price));
+    }else{
+      _items.remove(id);
+    }
+
 
 
 

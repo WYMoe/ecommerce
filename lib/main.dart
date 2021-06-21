@@ -1,6 +1,7 @@
 import 'package:ecommerce/provider/cart.dart';
 import 'package:ecommerce/provider/products_provider.dart';
 import 'package:ecommerce/screens/cart_screen.dart';
+import 'package:ecommerce/screens/manage_product_screen.dart';
 import 'package:ecommerce/screens/orders_screen.dart';
 import 'package:ecommerce/screens/product_detail_screen.dart';
 import 'package:ecommerce/screens/products_overview_screen.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Ecommerce',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -33,7 +35,8 @@ class MyApp extends StatelessWidget {
         routes: {
           ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
           CartScreen.routeName:(context) => CartScreen(),
-          OrdersScreen.routeName:(context) => OrdersScreen()
+          OrdersScreen.routeName:(context) => OrdersScreen(),
+          ManageProductScreen.routeName:(context) => ManageProductScreen()
         },
       ),
     );

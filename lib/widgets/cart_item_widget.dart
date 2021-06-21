@@ -1,4 +1,3 @@
-
 import 'package:ecommerce/provider/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,16 +9,15 @@ class CartItemWidget extends StatelessWidget {
   final int quantity;
   final String title;
 
-  CartItemWidget(
-  { this.id,
-      this.productId,
-      this.price,
-      this.quantity,
-      this.title,}
-      );
+  CartItemWidget({
+    this.id,
+    this.productId,
+    this.price,
+    this.quantity,
+    this.title,
+  });
   @override
   Widget build(BuildContext context) {
-
     return Dismissible(
       key: ValueKey(id),
       background: Container(
@@ -29,11 +27,32 @@ class CartItemWidget extends StatelessWidget {
           color: Colors.white,
           size: 40,
         ),
-
       ),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction){
-        Provider.of<Cart>(context,listen: false).removeItem(id);
+      onDismissed: (direction) {
+        Provider.of<Cart>(context, listen: false).removeItem(id);
+      },
+      confirmDismiss: (direction) {
+        return showDialog(
+            context: (context),
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Are you sure?'),
+                content: Text('Do you want to delete?'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                      child: Text("No")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: Text("Yes"))
+                ],
+              );
+            });
       },
       child: Card(
         margin: EdgeInsets.symmetric(
@@ -44,31 +63,34 @@ class CartItemWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             leading: CircleAvatar(
-               child: Padding(
-                 padding: const EdgeInsets.all(5.0),
-                 child: FittedBox(
-                   child: Text(
-                     '\$ $price'
-                   ),
-                 ),
-               ),
-
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: FittedBox(
+                  child: Text('\$ $price'),
+                ),
+              ),
             ),
             title: Text(title),
             subtitle: Text('Total: \$${(price * quantity)}'),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
-
               children: [
-                SizedBox(width: 10.0,),
-                IconButton(icon: Icon(Icons.remove), onPressed: (){
-                    Provider.of<Cart>(context,listen: false).reduceQunatity(id);
-                }),
+                SizedBox(
+                  width: 10.0,
+                ),
+                IconButton(
+                    icon: Icon(Icons.remove),
+                    onPressed: () {
+                      Provider.of<Cart>(context, listen: false)
+                          .reduceQunatity(id);
+                    }),
                 Text('$quantity'),
-                IconButton(icon: Icon(Icons.add), onPressed: (){
-                  Provider.of<Cart>(context,listen: false).addItem(id, title, price);
-
-                })
+                IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      Provider.of<Cart>(context, listen: false)
+                          .addItem(id, title, price);
+                    })
               ],
             ),
           ),

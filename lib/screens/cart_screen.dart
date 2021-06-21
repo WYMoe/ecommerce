@@ -34,12 +34,7 @@ class CartScreen extends StatelessWidget {
                   ),
                   TextButton(
                       onPressed: () {
-                        cart.items.forEach((id, cartItem) {
-                          if (cartItem.quantity <= 0) {
-                            cart.removeItem(id);
 
-                          }
-                        });
                         if (cart.items.values.toList().length > 0) {
 
                           Provider.of<Orders>(context, listen: false).addOrder(
