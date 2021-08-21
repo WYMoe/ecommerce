@@ -21,8 +21,12 @@ class ProductItemWidget extends StatelessWidget {
           child: Image.network(
             product.imageUrl,
             fit: BoxFit.cover,
+
           ),
         ),
+
+
+
         footer: GridTileBar(
           title: Text(
             product.title,
@@ -44,6 +48,18 @@ class ProductItemWidget extends StatelessWidget {
             icon: Icon(Icons.shopping_cart_outlined),
             onPressed: () {
               cart.addItem(product.id, product.title, product.price);
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('This item is added to cart'),
+              duration: Duration(
+                seconds: 2
+              ),
+              action: SnackBarAction(
+                label: "Undo",
+                onPressed: (){
+                  cart.reduceQunatity(product.id);
+                },
+              ),));
             },
           ),
         ),
