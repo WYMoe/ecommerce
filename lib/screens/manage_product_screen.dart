@@ -1,4 +1,5 @@
 import 'package:ecommerce/provider/products_provider.dart';
+import 'package:ecommerce/screens/edit_product_screen.dart';
 import 'package:ecommerce/widgets/app_drawer.dart';
 import 'package:ecommerce/widgets/manage_product_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,12 @@ class ManageProductScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Manage Product'),
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.pushNamed(context, EditProductScreen.routeName);
+          }
+          , icon: Icon(Icons.add))
+        ],
       ),
       drawer: AppDrawer(),
       body: ListView.builder(

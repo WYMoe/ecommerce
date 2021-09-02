@@ -1,5 +1,8 @@
 
+import 'package:ecommerce/provider/products_provider.dart';
+import 'package:ecommerce/screens/edit_product_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ManageProductItemWidget extends StatelessWidget {
   final String id;
@@ -32,10 +35,31 @@ class ManageProductItemWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(icon: Icon(Icons.edit), onPressed: (){
+                Navigator.pushNamed(context, EditProductScreen.routeName,arguments: id);
 
               }),
               IconButton(icon: Icon(Icons.delete), onPressed: (){
-
+                showDialog(
+                    context: (context),
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Are you sure?'),
+                        content: Text('Do you want to delete?'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                              child: Text("No")),
+                          TextButton(
+                              onPressed: () {
+                                Provider.of<ProductsProvider>(context,listen: false).deleteProduct(id);
+                                Navigator.of(context).pop(true);
+                              },
+                              child: Text("Yes"))
+                        ],
+                      );
+                    });
               })
             ],
           ),
