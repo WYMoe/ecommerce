@@ -15,7 +15,8 @@ class ManageProductScreen extends StatelessWidget {
         title: Text('Manage Product'),
         actions: [
           IconButton(onPressed: (){
-            Navigator.pushNamed(context, EditProductScreen.routeName);
+          Navigator.pushNamed(context, EditProductScreen.routeName);
+
           }
           , icon: Icon(Icons.add))
         ],

@@ -26,7 +26,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
   String _tempId;
   bool _tempFav;
 
-  bool _isDoneLoading;
+
+  bool _isDoneLoading=false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -50,6 +52,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
         _tempPrice = product.price;
         _tempFav = product.isFavourite;
         _urlController.text = product.imageUrl;
+
       }
     }
     _isDoneLoading = true;
@@ -62,23 +65,52 @@ class _EditProductScreenState extends State<EditProductScreen> {
           !_urlController.text.startsWith('https'))) {
         return;
       }
-      setState(() {});
+      setState(() {
+
+      });
     }
   }
 
-  saveForm() {
+  Future<void> saveForm() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
       if (_tempId == null) {
-        ProductModel productModel = ProductModel(
-            id: DateTime.now().toString(),
-            title: _tempTitle,
-            price: _tempPrice,
-            imageUrl: _tempImageUrl,
-            description: _tempDescription);
-        Provider.of<ProductsProvider>(context, listen: false)
-            .addProduct(productModel);
+        setState(() {
+          _isLoading = true;
+        });
+        try{
+          ProductModel productModel = ProductModel(
+              id: DateTime.now().toString(),
+              title: _tempTitle,
+              price: _tempPrice,
+              imageUrl: _tempImageUrl,
+              description: _tempDescription);
+        await Provider.of<ProductsProvider>(context, listen: false)
+              .addProduct(productModel);
+        }catch(err){
+          await showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text('An error occurred!'),
+              content: Text('Something went wrong.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ),
+          );
+        }finally{
+          setState(() {
+            _isLoading = false;
+          });
+          Navigator.of(context).pop();
+        }
+
       } else {
         ProductModel productModel = ProductModel(
             id: _tempId,
@@ -109,7 +141,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
         appBar: AppBar(
           title: Text('Edit Product'),
         ),
-        body: Padding(
+        body: _isLoading
+            ? Center(
+          child: CircularProgressIndicator(),
+        ):Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
               key: _formKey,
